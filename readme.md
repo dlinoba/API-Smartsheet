@@ -1,27 +1,40 @@
-API-Smartsheet
-Integração em Python para coleta, organização e exportação de dados da API Smartsheet.
+# Smartsheet API Data Extraction
 
-📌 Sobre o projeto
-Este projeto tem como objetivo automatizar a extração de dados do Smartsheet, permitindo consultar workspaces, planilhas, colunas e linhas, organizando as informações em arquivos CSV.
+Python project for extracting, processing, and exporting data from the Smartsheet API into structured CSV files.
 
-A aplicação utiliza Python para realizar as requisições HTTP, processar os dados retornados pela API e estruturar os arquivos exportados em diretórios organizados por workspace e planilha.
+## 📌 Project Overview
 
-🚀 Funcionalidades
-Workspaces: consulta todos os workspaces disponíveis, utilizando paginação.
-Planilhas: identifica as planilhas vinculadas a cada workspace.
-Colunas: consulta as colunas de cada planilha e seus respectivos identificadores.
-Linhas: extrai os registros das planilhas, associando os valores aos nomes das colunas.
-Paginação: permite recuperar grandes volumes de registros por meio de requisições paginadas.
-Normalização: remove acentos e caracteres especiais dos nomes utilizados nos diretórios.
-Exportação: converte os dados extraídos em DataFrames e exporta arquivos CSV.
-🛠️ Tecnologias utilizadas
-Python
-Requests
-Pandas
-Python Dotenv
-📂 Estrutura do projeto
+This project automates data extraction from Smartsheet workspaces and spreadsheets through HTTP requests.
 
-text
+It retrieves workspaces, spreadsheets, columns, and rows, transforming the API responses into structured Pandas DataFrames and exporting the results as CSV files.
+
+The solution was developed with a modular architecture, separating API requests, data processing, and file export operations.
+
+## 🚀 Features
+
+- **Workspace Extraction:** Retrieves available workspaces using paginated API requests.
+- **Spreadsheet Discovery:** Retrieves spreadsheets associated with each workspace.
+- **Column Mapping:** Maps column IDs to their corresponding names.
+- **Row Extraction:** Retrieves spreadsheet records and maps cell values to their respective columns.
+- **Pagination Handling:** Processes large datasets through offset-based pagination.
+- **Data Processing:** Converts API responses into Pandas DataFrames.
+- **Data Cleaning:** Removes technical metadata columns and empty rows.
+- **Filename Normalization:** Removes accents and special characters from workspace and spreadsheet names.
+- **CSV Export:** Exports structured datasets using UTF-8 with BOM encoding.
+
+## 🛠️ Technologies
+
+| Technology | Purpose |
+|---|---|
+| Python | Application development |
+| Requests | HTTP requests and API integration |
+| Pandas | Data manipulation and transformation |
+| Python Dotenv | Environment variable management |
+| Smartsheet API | Data source |
+
+## 📂 Project Structure
+
+```text
 API-Smartsheet/
 │
 ├── functions/
@@ -35,99 +48,134 @@ API-Smartsheet/
 │   └── export.py
 │
 ├── data/
-│   └── (arquivos exportados)
+│   └── (exported CSV files)
 │
 ├── .env
 ├── .env_example
-├── requirements.txt
 ├── main.py
 └── README.md
-Organização dos módulos
+```
 
-Módulo	Descrição
-get_workspace.py	Consulta e retorna os workspaces.
-get_sheet.py	Consulta as planilhas de um workspace.
-get_columns.py	Consulta as colunas de uma planilha.
-get_sheet_line.py	Consulta as linhas e associa os valores aos nomes das colunas.
-normalize.py	Normaliza textos e nomes de diretórios.
-export.py	Organiza diretórios e exporta os DataFrames em CSV.
-main.py	Controla e executa o processo de extração.
-⚙️ Instalação
-1. Clonar o repositório
+### Module Description
 
-bash
+| Module | Description |
+|---|---|
+| `get_workspace.py` | Retrieves available workspaces. |
+| `get_sheet.py` | Retrieves spreadsheets associated with a workspace. |
+| `get_columns.py` | Retrieves spreadsheet columns and maps their IDs to column names. |
+| `get_sheet_line.py` | Extracts spreadsheet rows and maps cell values to their corresponding columns. |
+| `normalize.py` | Normalizes text by removing accents and special characters. |
+| `export.py` | Creates output directories and exports DataFrames to CSV files. |
+| `main.py` | Orchestrates the complete data extraction and export workflow. |
+
+## ⚙️ Installation and Configuration
+
+### 1. Clone the repository
+
+```bash
 git clone https://github.com/dlinoba/API-Smartsheet.git
-2. Acessar o diretório
+```
 
-bash
+### 2. Navigate to the project directory
+
+```bash
 cd API-Smartsheet
-3. Instalar as dependências
+```
 
-bash
-pip install -r requirements.txt
-4. Configurar as variáveis de ambiente
-Crie um arquivo .env na raiz do projeto, utilizando o .env_example como referência.
+### 3. Install dependencies
 
-Configure as seguintes variáveis:
+```bash
+pip install requests pandas python-dotenv
+```
 
+### 4. Configure environment variables
 
-env
-API_TOKEN=SEU_TOKEN_SMARTSHEET
-root_url=URL_BASE_DA_API
-Importante: não compartilhe seu token de acesso e não envie o arquivo .env para o GitHub.
+Create a `.env` file in the project root directory, using `.env_example` as a reference.
 
-▶️ Execução
-Para iniciar o processo de extração, execute:
+Configure the following variables:
 
+```env
+API_TOKEN=YOUR_SMARTSHEET_API_TOKEN
+root_url=YOUR_API_BASE_URL/
+```
 
-bash
+**Important:** The `root_url` should include a trailing slash because the application appends endpoint paths directly to it.
+
+The application uses Bearer Token authentication.
+
+Never commit your `.env` file or expose your API credentials.
+
+## ▶️ Execution
+
+Run the application with:
+
+```bash
 python main.py
-O processo seguirá as seguintes etapas:
+```
 
-Consulta todos os workspaces disponíveis.
-Identifica as planilhas vinculadas a cada workspace.
-Consulta as colunas de cada planilha.
-Recupera todas as linhas utilizando paginação.
-Organiza os dados em DataFrames.
-Exporta os dados em arquivos CSV.
-📊 Estrutura dos dados exportados
-Os arquivos são organizados por workspace e planilha.
+The extraction workflow follows these steps:
 
-Exemplo:
+1. Retrieves all available workspaces.
+2. Identifies spreadsheets associated with each workspace.
+3. Retrieves the columns of each spreadsheet.
+4. Extracts all spreadsheet rows using pagination.
+5. Maps column IDs to their corresponding column names.
+6. Converts the extracted records into Pandas DataFrames.
+7. Removes technical metadata columns and completely empty rows.
+8. Exports the processed data into CSV files.
 
+## 📊 Data Export Structure
 
-text
+Exported files are automatically organized by workspace.
+
+The output structure follows this pattern:
+
+```text
 data/
 │
-├── Reforma_Tributaria_2026/
-│   │
-│   ├── 12345_Controle_Geral/
-│   │   └── Controle_Geral.csv
-│   │
-│   └── 12346_Cronograma/
-│       └── Cronograma.csv
+├── Workspace_Name/
+│   ├── 12345_Spreadsheet_Name.csv
+│   └── 12346_Another_Spreadsheet.csv
 │
-└── Integracao_JIRA/
-    │
-    └── 78901_Projetos_JIRA/
-        └── Projetos_JIRA.csv
-Os diretórios são criados automaticamente durante a execução, caso ainda não existam.
+└── Another_Workspace/
+    └── 78901_Project_Tracking.csv
+```
 
-🔄 Tratamento dos dados
-Durante a extração, os dados são organizados utilizando Pandas.
+Each CSV filename contains the spreadsheet ID and its normalized name.
 
-As informações de identificação e controle das linhas podem ser removidas do DataFrame exportado, mantendo os dados de negócio das planilhas.
+Directories are created automatically when they do not exist.
 
-Os arquivos CSV são exportados utilizando codificação UTF-8 com BOM (utf-8-sig), facilitando sua abertura no Microsoft Excel.
+## 🔄 Data Processing
 
-🔐 Segurança
-As credenciais são armazenadas em variáveis de ambiente.
-O token de acesso não deve ser versionado.
-O arquivo .env deve permanecer fora do controle de versão.
-O arquivo .env_example deve conter apenas valores ilustrativos.
-👨‍💻 Autor
-dlinoba
+The project uses Pandas to transform API responses into structured tabular datasets.
 
-GitHub: @dlinoba
+During processing:
 
-Projeto desenvolvido em Python para automatização da coleta e organização de dados do Smartsheet.
+- Spreadsheet cell values are mapped using the corresponding column IDs.
+- Technical metadata fields are removed from the exported DataFrames:
+  - `sheetId`
+  - `rowId`
+  - `rowNumber`
+  - `createdAt`
+  - `modifiedAt`
+- Completely empty rows are discarded.
+- Workspace and spreadsheet names are normalized to create filesystem-friendly paths.
+- CSV files are exported using `utf-8-sig` encoding to improve compatibility with Microsoft Excel.
+
+## 🔐 Security
+
+- API credentials are stored in environment variables.
+- The `.env` file must not be committed to version control.
+- The `.env_example` file should contain only illustrative values.
+- API tokens should be kept private and rotated when necessary.
+
+## 👨‍💻 Author
+
+**Deyvid Linoba**
+
+- GitHub: [@dlinoba](https://github.com/dlinoba)
+- LinkedIn: [Deyvid Linoba](https://www.linkedin.com/in/deyvid-linoba/)
+
+---
+
+*Developed with Python for automated API integration, data extraction, and structured data export.*
