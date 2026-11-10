@@ -1,4 +1,6 @@
-# Smartsheet API Data Extraction
+# Smartsheet API Data Extraction (FULL Extraction)
+
+Next feature, improved Delta
 
 Python project for extracting, processing, and exporting data from the Smartsheet API into structured CSV files.
 
